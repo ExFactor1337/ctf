@@ -42,6 +42,21 @@ def main():
     else:
         input_str = input("Enter a string: ")
 
+    # Check if any input word is in the dictionary
+    input_words = re.findall(r"[a-zA-Z']+", input_str.lower())
+    found_words = [word for word in input_words if word in dictionary]
+    if found_words and not args.rot:
+        print(f"Some input words found in dictionary: {', '.join(found_words)}")
+        resp = input("Do you want to translate into a specific ROT? (y/n): ").strip().lower()
+        if resp == 'y':
+            while True:
+                rot_val = input("Enter ROT integer (1-25): ").strip()
+                if rot_val.isdigit() and 1 <= int(rot_val) <= 25:
+                    args.rot = int(rot_val)
+                    break
+                else:
+                    print("Please enter a valid integer between 1 and 25.")
+
     if args.rot:
         if not (1 <= args.rot <= 25):
             print("ROT integer must be between 1 and 25.")
